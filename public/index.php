@@ -1,50 +1,42 @@
 <?php
-$tasks = [
-    [
-        'title' => 'Comprar insumos para el proyecto',
-        'completed' => false,
-        'priority' => 'alta'
-    ],
-    [
-        'title' => 'Revisar correos pendientes',
-        'completed' => true,
-        'priority' => 'media'
-    ],
-    [
-        'title' => 'Actualizar documentación del proyecto',
-        'completed' => false,
-        'priority' => 'baja'
-    ],
-    [
-        'title' => 'Llamar al cliente para feedback',
-        'completed' => true,
-        'priority' => 'alta'
-    ],
-    [
-        'title' => 'Organizar reunión de equipo',
-        'completed' => false,
-        'priority' => 'media'
-    ]
+require_once '.. /app/functions.php';
+// Datos de las tareas (simulando una base de datos)
+$tareas = [
+    ['titulo' => 'Configurar el entorno de desarrollo', 'completado' => true, 'prioridad' => 'alta'],
+    ['titulo' => 'Crear la estructura de carpetas', 'completado' => true, 'prioridad' => 'alta'],
+    ['titulo' => 'Diseñar la base de datos', 'completado' => false, 'prioridad' => 'media'],
+    ['titulo' => 'Implementar el sistema de login', 'completado' => false, 'prioridad' => 'alta'],
+    ['titulo' => 'Crear la vista de tareas', 'completado' => false, 'prioridad' => 'baja']
 ];
+
+include '../app/views/header.php';
 ?>
 
-<?php
-define("SITE_NAME", "TaskFlow");
-$pageTitle = SITE_NAME . " - Página de Inicio";
-$userName = "Javier"; 
-$userAge = 23;
-$isPremiumUser = true;
+<h2>Tareas Pendientes</h2>
+<ul>
+    <?php foreach ($tareas as $tarea) : ?>
+        <?php
+        $clasesTarea = 'task-item';
+        if ($tarea['completado']) {
+            $clasesTarea .= ' completed';
+        }
 
-include 'C:\xampp\htdocs\taskflow\app\views\header.php'; 
-?>
+        switch ($tarea['prioridad']) {
+            case 'alta':
+                $clasesTarea .= ' priority-alta';
+                break;
+            case 'media':
+                $clasesTarea .= ' priority-media';
+                break;
+            case 'baja':
+                $clasesTarea .= ' priority-baja';
+                break;
+        }
+        ?>
+        <li class="<?php echo $clasesTarea; ?>">
+            <?php echo $tarea['titulo']; ?>
+        </li>
+    <?php endforeach; ?>
+</ul>
 
-<main>
-    <h2>Perfil del Usuario</h2>
-    <p><strong>Nombre:</strong> <?php echo $userName; ?></p>
-    <p><strong>Edad:</strong> <?php echo $userAge; ?> años</p>
-    <p><strong>Estado de la cuenta:</strong> Usuario <?php echo $isPremiumUser ? "Premium" : "Estándar"; ?></p>
-</main>
-
-<?php
-include 'C:\xampp\htdocs\taskflow\app\views\footer.php';
-?>
+<?php include '../app/views/footer.php'; ?>
